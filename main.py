@@ -44,17 +44,21 @@ def where_db(column:str, where:str):
 
     where_list = []
 
-    for i in c.execute(f'SELECT * FROM stocks where {column} = "{where}"'):
+    for i in c.execute(f'SELECT * FROM stocks where {column} = "{where}" ORDER BY time'):
         where_list.append(i)
 
     conn.close()
 
     return where_list
 
+# format 2020-12-31
+def now():
+    return dt.datetime.now().strftime("%Y-%m-%d")
+
 
 if __name__ == "__main__":
-    # push_db("2020-12-30","14:02:03","こんにちは",None)
+    push_db("2020-12-31","12:48:03","こんdafafaにちは",None)
     # db_data = fetch_db()
     # print(db_data[0][1])
-    now = dt.datetime.now().strftime("%Y-%m-%d")
-    print(where_db("date",now))
+    print(where_db("date",now()))
+    
