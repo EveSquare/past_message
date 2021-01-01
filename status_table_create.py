@@ -1,6 +1,6 @@
 import sqlite3
 
-path = 'pastmessage.db'
+path = 'status.db'
 
 
 if __name__ == "__main__":
@@ -12,8 +12,9 @@ if __name__ == "__main__":
     # Create table
     c.execute('''CREATE TABLE stocks
                  (date text,
-                   time text,
                    message text, 
-                   img_path text,
-                   token text)''')
+                   token text,
+                   created_datetime text,
+                   user_id text,
+                   status Integer)''')
     print("success")

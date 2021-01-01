@@ -12,7 +12,7 @@ def push_db(date:str, time:str, content:str, img:str):
 
     c = conn.cursor()
     # Insert a row of data
-    c.execute(f"INSERT INTO stocks VALUES ('{date}','{time}','{content}', '{img}', '{se.token_hex()}')")
+    c.execute(f"INSERT INTO stocks VALUES ('{date}','{time}','{content}', '{img}', '{se.token_hex()}', '{dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}')")
  
     conn.commit()
 
@@ -60,5 +60,15 @@ if __name__ == "__main__":
     push_db("2020-12-31","12:48:03","こんdafafaにちは",None)
     # db_data = fetch_db()
     # print(db_data[0][1])
-    print(where_db("date",now()))
+    conn = sqlite3.connect(path)
+    c = conn.cursor()
+
+    where_list = []
+
+    for i in c.execute(f'SELECT * FROM stocks'):
+        where_list.append(i)
+
+    conn.close()
+
+    print(where_list)
     
