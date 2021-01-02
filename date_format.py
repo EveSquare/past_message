@@ -1,4 +1,8 @@
 import re
+import datetime as dt
+
+def now():
+    return dt.datetime.now().strftime("%Y-%m-%d")
 
 # data of date
 DATE = ["2020/01/05",
@@ -34,6 +38,11 @@ def pattern_math(date):
             # Tuple unpacking
             year, month, day = int(split[1]),int(split[3]),int(split[5])
 
+        nows = now().split("-")
+
+        if dt.datetime(int(nows[0]), int(nows[1]), int(nows[2])) > dt.datetime(year, month, day):
+            return False
+
         if year>3000 or month >12 or day > 31:
             return False
         else:
@@ -42,7 +51,8 @@ def pattern_math(date):
             if day <= 9:
                 day = '0' + str(day)
             return [str(year), str(month), str(day)]
+
     except:
         return False
 
-print(pattern_math("22"))
+print(pattern_math("2021 2 2"))

@@ -88,14 +88,14 @@ def user_status(user_id:str):
         conn.close()
         return i[0]
 
-def delete_db(user_id:str):
+def delete_db(token:str):
     conn = sqlite3.connect(path)
     c = conn.cursor()
 
-    c.execute(f'DELETE from stocks WHERE user_id = "{user_id}"')
+    c.execute(f'DELETE from stocks WHERE token = "{token}"')
 
     conn.commit()
-
+    print("DELEAT")
     conn.close()
 
 def user_all_data(user_id:str):
@@ -115,6 +115,32 @@ def user_all_data(user_id:str):
 def now():
     return dt.datetime.now().strftime("%Y-%m-%d")
 
+# return :list
+def where_date_db(date:str):
+    conn = sqlite3.connect(path)
+    c = conn.cursor()
+
+    where_list = []
+
+    for i in c.execute(f'SELECT date, token, created_datetime, user_id FROM stocks where date = "{date}"'):
+        where_list.append(i)
+
+    conn.close()
+
+    return where_list
+
+def where_date_db2(date:str):
+    conn = sqlite3.connect(path)
+    c = conn.cursor()
+
+    where_list = []
+
+    for i in c.execute(f'SELECT date, token, created_datetime, user_id FROM stocks where date < "{date}"'):
+        where_list.append(i)
+
+    conn.close()
+
+    return where_list
 
 if __name__ == "__main__":
 
@@ -126,11 +152,28 @@ if __name__ == "__main__":
     #                created_datetime text,
     #                user_id text,
     #                status Integer)''')
-    message = "一年前"
-    id = "Ud04d8ad9c4a2070d410d4b913422da5f"
+    message = "一年dadadadadada前"
+    id = "Ud04d8ad9c4a2070d410d4b913422da5fd"
 
-    #push_db("","","",id,1)
+    push_db("2020-12-22","","",id,1)
 
-    # all_data()
-    print(user_all_data(id)[0])
+
+    # for i in where_date_db2((dt.datetime.now() + dt.timedelta(days=10)).strftime("%Y-%m-%d")):
+    #     delete_db(i[3])
+    # date_dbs = where_date_db(now())
+
+    # if date_dbs != []:
+    #     for row in date_dbs:
+    #         date = row[0].split('-')
+    #         else:
+    #             token = row[1]
+    #             created_date = row[2]
+    #             user_id = row[3]
+    #             print("send Message")
     
+    date_dbs2 = where_date_db2(dt.datetime.now() - dt.timedelta(days=10))
+
+    for row in date_dbs2:
+        delete_db(row[1])
+
+    all_data()
